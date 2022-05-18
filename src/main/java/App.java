@@ -29,7 +29,8 @@ public class App {
     }
     private static SslContextFactory getSslContextFactory() {
         SslContextFactory sslContextFactory = new SslContextFactory.Server();
-        sslContextFactory.setKeyStorePath(System.getProperty("user.dir") + "/keystore.jks");
+        // sslContextFactory.setKeyStorePath(System.getProperty("user.dir") + "/keystore.jks");
+        sslContextFactory.setKeyStorePath("/usr/app/cert/keystore.jks");
         sslContextFactory.setKeyStorePassword("rebotado");
         return sslContextFactory;
     }
