@@ -9,10 +9,15 @@ public class App {
         Javalin app = Javalin.create(config -> {
             config.server(() -> {
                 Server server = new Server();
+
+                // HTTPS
                 ServerConnector sslConnector = new ServerConnector(server, getSslContextFactory());
-                sslConnector.setPort(80);
+                sslConnector.setPort(443);
+
+                // HTTP
                 ServerConnector connector = new ServerConnector(server);
-                connector.setPort(443);
+                connector.setPort(80);
+
                 server.setConnectors(new Connector[]{sslConnector, connector});
                 return server;
             });
@@ -23,7 +28,7 @@ public class App {
         });
     }
     private static SslContextFactory getSslContextFactory() {
-        SslContextFactory sslContextFactory = new SslContextFactory();
+        SslContextFactory sslContextFactory = new SslContextFactory.Server();
         sslContextFactory.setKeyStorePath(System.getProperty("user.dir") + "/keystore.jks");
         sslContextFactory.setKeyStorePassword("rebotado");
         return sslContextFactory;
