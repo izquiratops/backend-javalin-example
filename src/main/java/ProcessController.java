@@ -10,6 +10,9 @@ import java.nio.file.StandardCopyOption;
 import java.util.Collection;
 
 public class ProcessController {
+
+    public static String RECEIVED_DATA_PATH = System.getProperty("user.dir") + "/received_data";
+
     public static Handler Upload = ctx -> {
         ctx.req.setAttribute("org.eclipse.jetty.multipartConfig", new MultipartConfigElement("/temp"));
         final Collection<Part> parts = ctx.req.getParts();
@@ -27,7 +30,7 @@ public class ProcessController {
         System.out.println("Description: " + description);
 
         final Part uploadedFile = ctx.req.getPart("file");
-        final Path out = Paths.get(System.getProperty("user.dir") + "/received_data/" + uploadedFile.getSubmittedFileName());
+        final Path out = Paths.get(RECEIVED_DATA_PATH + "/" + uploadedFile.getSubmittedFileName());
 
         try (final InputStream in = uploadedFile.getInputStream()) {
             Files.copy(in, out, StandardCopyOption.REPLACE_EXISTING);
@@ -37,4 +40,5 @@ public class ProcessController {
         System.out.println("------------------ End of request ------------------");
         ctx.result("File Saved");
     };
+
 }

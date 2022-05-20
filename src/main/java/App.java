@@ -4,8 +4,15 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 
+import java.io.File;
+
 public class App {
     public static void main(String[] args) {
+        File directory = new File(ProcessController.RECEIVED_DATA_PATH);
+        if (! directory.exists()){
+            directory.mkdir();
+        }
+
         Javalin app = Javalin.create(config -> {
             config.server(App::CreateSecureServer);
         }).start();
@@ -19,16 +26,16 @@ public class App {
     private static Server CreateSecureServer() {
         Server server = new Server();
 
-        /* // HTTPS
+        // HTTPS
         ServerConnector sslConnector = new ServerConnector(server, getSslContextFactory());
-        sslConnector.setPort(7071); */
+        sslConnector.setPort(7071);
 
         // HTTP
         ServerConnector connector = new ServerConnector(server);
         connector.setPort(7070);
 
-        server.setConnectors(new Connector[]{connector});
-        // server.setConnectors(new Connector[]{sslConnector, connector});
+        // server.setConnectors(new Connector[]{connector});
+        server.setConnectors(new Connector[]{sslConnector, connector});
 
         return server;
     }
