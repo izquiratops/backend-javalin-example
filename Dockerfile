@@ -18,6 +18,6 @@ ENTRYPOINT ["java","-jar","/usr/app/Server.jar"]
 # Package with JRE 11 Slim
 # docker build --tag jre-slim --target jre-slim .
 #
-FROM openjdk:11-jre-slim AS jre-slim
+FROM openjdk:11-jre-slim AS slim
 COPY --from=build /usr/src/app/target/Server-jar-with-dependencies.jar /usr/app/Server.jar
 ENTRYPOINT ["java","-jar","/usr/app/Server.jar"]

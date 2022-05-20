@@ -10,6 +10,7 @@ public class App {
             config.server(() -> {
                 Server server = new Server();
 
+                /* TODO: wait this could be handled by nginx
                 // HTTPS
                 ServerConnector sslConnector = new ServerConnector(server, getSslContextFactory());
                 sslConnector.setPort(443);
@@ -18,7 +19,7 @@ public class App {
                 ServerConnector connector = new ServerConnector(server);
                 connector.setPort(80);
 
-                server.setConnectors(new Connector[]{sslConnector, connector});
+                server.setConnectors(new Connector[]{sslConnector, connector}); */
                 return server;
             });
         }).start();
@@ -30,7 +31,7 @@ public class App {
     private static SslContextFactory getSslContextFactory() {
         SslContextFactory sslContextFactory = new SslContextFactory.Server();
         // sslContextFactory.setKeyStorePath(System.getProperty("user.dir") + "/keystore.jks");
-        sslContextFactory.setKeyStorePath("/usr/app/cert/keystore.jks");
+        sslContextFactory.setKeyStorePath("/usr/app/certs/keystore.jks");
         sslContextFactory.setKeyStorePassword("rebotado");
         return sslContextFactory;
     }
