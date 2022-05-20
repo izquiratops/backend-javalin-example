@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="javalin-demo" />
+        <module name="server-demo" />
       </profile>
     </annotationProcessing>
   </component>
