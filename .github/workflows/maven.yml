@@ -7,20 +7,6 @@ on:
     branches: [ master ]
 
 jobs:
-  mvn-package:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 11
-      uses: actions/setup-java@v3
-      with:
-        java-version: '11'
-        distribution: 'temurin'
-        cache: maven
-    - name: Build with Maven
-      run: mvn -B package --file pom.xml
 
   build-docker-image:
 
@@ -28,5 +14,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile -t distroless --tag ${{ github.repository }}:${{ github.ref_name }}
+    - name: Build and push Docker images
+      uses: docker/build-push-action@v3.0.0
+      with:
+        # Path to the Dockerfile
+        file: Dockerfile
+        # List of tags
+        tags: ${{ github.repository }}:${{ github.ref_name }}
+        # Sets the target stage to build
+        target: distroless
+        # GitHub Token used to authenticate against a repository for Git context
+        github-token: ${{ github.token }}
+
+        # List of secrets to expose to the build (e.g., key=string, GIT_AUTH_TOKEN=mytoken)
+        # secrets: # optional
+        # List of secret files to expose to the build (e.g., key=filename, MY_SECRET=./secret.txt)
+        # secret-files: # optional
