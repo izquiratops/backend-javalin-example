@@ -38,7 +38,7 @@ public class App {
     private static SslContextFactory getSslContextFactory() {
         SslContextFactory sslContextFactory = new SslContextFactory.Server();
         File f = new File("/webserver/certs/keystore.jks");
-        System.out.print("!!! ->> " + f.exists());
+        System.out.println("!!! ->> " + String.valueOf(f.exists()));
         sslContextFactory.setKeyStorePath("/webserver/certs/keystore.jks");
         sslContextFactory.setKeyStorePassword(System.getenv().get("KEYSTORE_PASSWORD"));
         return sslContextFactory;
