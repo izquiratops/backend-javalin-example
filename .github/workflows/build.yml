@@ -40,5 +40,4 @@ jobs:
           push: true
           file: Dockerfile
           tags: ${{ github.repository }}:${{ github.ref_name }}
-          target: distroless
           github-token: ${{ github.token }}
