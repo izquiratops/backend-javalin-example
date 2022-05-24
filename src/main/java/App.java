@@ -4,6 +4,8 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 
+import java.io.File;
+
 public class App {
     public static void main(String[] args) {
         Javalin app = Javalin.create(config -> {
@@ -35,6 +37,8 @@ public class App {
 
     private static SslContextFactory getSslContextFactory() {
         SslContextFactory sslContextFactory = new SslContextFactory.Server();
+        File f = new File("/webserver/certs/keystore.jks");
+        System.out.print("!!! ->> " + f.exists());
         sslContextFactory.setKeyStorePath("/webserver/certs/keystore.jks");
         sslContextFactory.setKeyStorePassword(System.getenv().get("KEYSTORE_PASSWORD"));
         return sslContextFactory;
