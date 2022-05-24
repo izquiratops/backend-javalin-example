@@ -1,15 +1,11 @@
-version: "3.9"
+version: "3"
+
 services:
   webserver:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      target: jre-distroless
-    profiles: ['backend']
+    image: izquiratops/backend-javalin-example:latest
+    volumes:
+      - $HOME/received_data:/webserver/received_data
+      - $HOME/certs:/webserver/certs
     ports:
       - "80:7070"
       - "443:7071"
-    volumes:
-      - ./received_data:/usr/app/received_data
-    environment:
-      - TEST_ENV = hello
