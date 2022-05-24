@@ -4,15 +4,8 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.util.ssl.SslContextFactory;
 
-import java.io.File;
-
 public class App {
     public static void main(String[] args) {
-        File directory = new File(ProcessController.RECEIVED_DATA_PATH);
-        if (! directory.exists()){
-            directory.mkdir();
-        }
-
         Javalin app = Javalin.create(config -> {
             config.server(App::CreateSecureServer);
         }).start();
@@ -28,11 +21,11 @@ public class App {
 
         // HTTPS
         ServerConnector sslConnector = new ServerConnector(server, getSslContextFactory());
-        sslConnector.setPort(7071);
+        sslConnector.setPort(443);
 
         // HTTP
         ServerConnector connector = new ServerConnector(server);
-        connector.setPort(7070);
+        connector.setPort(80);
 
         // server.setConnectors(new Connector[]{connector});
         server.setConnectors(new Connector[]{sslConnector, connector});
@@ -42,8 +35,8 @@ public class App {
 
     private static SslContextFactory getSslContextFactory() {
         SslContextFactory sslContextFactory = new SslContextFactory.Server();
-        sslContextFactory.setKeyStorePath(System.getProperty("user.dir") + "/keystore.jks");
-        sslContextFactory.setKeyStorePassword("rebotado");
+        sslContextFactory.setKeyStorePath(System.getProperty("user.dir") + "/certs/keystore.jks");
+        sslContextFactory.setKeyStorePassword(System.getenv().get("KEYSTORE_PASSWORD"));
         return sslContextFactory;
     }
 }
