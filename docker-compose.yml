@@ -4,8 +4,12 @@ services:
   webserver:
     image: izquiratops/backend-javalin-example:latest
     volumes:
-      - $HOME/received_data:/webserver/received_data
-      - $HOME/certs:/webserver/certs
+      - type: bind
+        source: ./certs
+        target: /webserver/certs
+      - type: bind
+        source: ./received_data
+        target: /webserver/received_data
     ports:
       - "80:7070"
       - "443:7071"
