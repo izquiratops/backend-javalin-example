@@ -48,7 +48,7 @@ public class App {
         }
 
         SslContextFactory sslContextFactory = new SslContextFactory.Server();
-        sslContextFactory.setKeyStorePath("/run/secrets/keystore_content");
+        sslContextFactory.setKeyStorePath("/webserver/certs/keystore.jks");
         sslContextFactory.setKeyStorePassword(keystorePassword);
 
         return sslContextFactory;
