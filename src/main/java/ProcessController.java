@@ -2,6 +2,7 @@ import io.javalin.http.Handler;
 
 import javax.servlet.MultipartConfigElement;
 import javax.servlet.http.Part;
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -33,12 +34,16 @@ public class ProcessController {
         final Path out = Paths.get(RECEIVED_DATA_PATH + "/" + uploadedFile.getSubmittedFileName());
 
         try (final InputStream in = uploadedFile.getInputStream()) {
-            Files.copy(in, out, StandardCopyOption.REPLACE_EXISTING);
+            final byte[] encodedBytes = in.readAllBytes();
+            final byte[] image = Encryption.decrypt(encodedBytes);
+            assert image != null;
+            final InputStream imageStream = new ByteArrayInputStream(image);
+
+            Files.copy(imageStream, out, StandardCopyOption.REPLACE_EXISTING);
             uploadedFile.delete();
         }
 
         System.out.println("------------------ End of request ------------------");
         ctx.result("File Saved");
     };
-
 }
