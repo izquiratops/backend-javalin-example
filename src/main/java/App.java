@@ -53,7 +53,7 @@ public class App {
         ServerConnector connector = new ServerConnector(server);
         connector.setPort(80);
 
-        server.setConnectors(new Connector[]{connector});
+        server.setConnectors(new Connector[]{sslConnector, connector});
 
         return server;
     }
