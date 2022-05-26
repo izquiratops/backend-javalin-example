@@ -52,11 +52,14 @@ There's a thing called certbot hooks but I didn't tried yet 🥺
 ## How to setup HTTPS
 
 Once got the certs you can find them on `/etc/letsencrypt/live/my-awesome-domain.com`.
-The next step is setting up NGINX so TLS handshakes could be possible through 443.
+
+Since Javalin is built on top of Jetty, we're setting TLS with it. Everything related can be found
+on the App.java script.
+
+### What if I'm serving with NGINX?
 
 Everything about config files from NGINX can be found on `/etc/nginx`.
-
-Trying to avoid getting a messy bunch of config files I'm setting the following tree:
+Trying to avoid a messy bunch of config files I'm setting the following structure:
 - `snippets` --> Here goes the SSL-related stuff
 - `snippets/certs` --> Here goes any config file that defines where the certs are stored.
 - `sites-available` --> Config files for every domain we're hosting
@@ -123,14 +126,30 @@ server {
 }
 ```
 
-
-
-
 # Docker
 
 ## How to create a Docker Image
+Create the Image is the first step to get this project running with containers.
+The docker CLI expects a dockerfile as an input, that script tells the steps to make a build.
+
+Before running the dockerfile you had to run the tests (if there's any) and make the build.
+The steps made on this dockerfile are:
+- Get a docker Image ([java11 distroless](https://github.com/GoogleContainerTools/distroless))
+as the environment to run our build
+- Setting a working directory
+- Copy build into that image
+- Set something like "java -jar blabla" as the entrypoint (aka the very first thing that will run)
+
+After all of this your image is ready, you can set a tag name and push it into Docker Hub,
+this way you can fetch it from other machines.
+```
+    docker build -t custom-tag-image .
+```
 
 ## How to run it as a Docker Container
+```
+    docker run --name <container name> -d -p <port in>:<port out> <image name>
+```
 
 ## Portainer and Services
 
