@@ -13,7 +13,7 @@ public class Encryption {
         try {
             IvParameterSpec ivspec = new IvParameterSpec(IV);
 
-            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256");
+            SecretKeyFactory factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
             KeySpec spec = new PBEKeySpec(
                     App.CRYPTO_KEY.toCharArray(),
                     App.CRYPTO_SALT.getBytes(),
