@@ -46,14 +46,14 @@ public class App {
         Server server = new Server();
 
         // HTTPS
-        ServerConnector sslConnector = new ServerConnector(server, getSslContextFactory());
-        sslConnector.setPort(443);
+        // ServerConnector sslConnector = new ServerConnector(server, getSslContextFactory());
+        // sslConnector.setPort(443);
 
         // HTTP
         ServerConnector connector = new ServerConnector(server);
         connector.setPort(80);
 
-        server.setConnectors(new Connector[]{sslConnector, connector});
+        server.setConnectors(new Connector[]{connector});
 
         return server;
     }
