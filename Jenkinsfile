@@ -5,6 +5,9 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building...'
+
+                // Run the maven build
+                sh "mvn clean verify"
             }
         }
         stage('Test') {
