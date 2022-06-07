@@ -6,8 +6,10 @@ pipeline {
             steps {
                 echo 'Building...'
 
-                // Run the maven build
-                sh "mvn clean verify"
+                withMaven(globalMavenSettingsConfig: 'null', jdk: 'JDK 11', maven: 'Maven 3.8', mavenSettingsConfig: 'null') {
+                    // Run the maven build
+                    sh "mvn clean verify"
+                }
             }
         }
         stage('Test') {
